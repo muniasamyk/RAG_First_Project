@@ -1,4 +1,4 @@
-# RAG_First_Project
+# RAG First Project
 # Human Nutrition Chatbot — RAG-Based Project
 ## Overview
 
