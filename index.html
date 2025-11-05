@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Human Nutrition Chatbot</title>
+  <style>
+    /* === 3D Animated Background === */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      color: white;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 20%, #0f2027, #203a43, #2c5364);
+      position: relative;
+    }
+
+    /* Floating gradient waves */
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle at center, rgba(72, 61, 139, 0.4), transparent 70%),
+                  radial-gradient(circle at 70% 40%, rgba(0, 191, 255, 0.3), transparent 70%),
+                  radial-gradient(circle at 30% 80%, rgba(255, 105, 180, 0.25), transparent 70%);
+      animation: moveBackground 20s linear infinite;
+      z-index: 0;
+      filter: blur(120px);
+    }
+
+    @keyframes moveBackground {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    /* === Navigation Bar === */
+    .nav {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      z-index: 10;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* === Center Chat Container === */
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      transition: all 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Input Section */
+    #input-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #query {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #222;
+    }
+
+    button {
+      background-color: #6a5acd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background-color: #8a7cf3;
+      transform: scale(1.05);
+    }
+
+    /* Chat Section */
+    #chat-area {
+      margin-top: 20px;
+      max-height: 60vh;
+      overflow-y: auto;
+      display: none;
+      text-align: left;
+    }
+
+    .user-msg,
+    .bot-msg {
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 10px;
+      max-width: 80%;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+
+    .user-msg {
+      background-color: #4e4376;
+      margin-left: auto;
+    }
+
+    .bot-msg {
+      background-color: #2b5876;
+      margin-right: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🔹 Navigation Bar -->
+  <div class="nav">
+    <a href="#">Home</a>
+    <a href="#">Login</a>
+  </div>
+
+  <!-- 🔹 Chatbot Container -->
+  <div class="container">
+    <h2>Human Nutrition Chatbot</h2>
+
+    <div id="input-area">
+      <input type="text" id="query" placeholder="Ask about nutrition..." />
+      <button onclick="askQuery()">Send</button>
+    </div>
+
+    <div id="chat-area">
+      <div id="chat-wrapper"></div>
+    </div>
+  </div>
+
+  <script>
+    async function askQuery() {
+      const queryInput = document.getElementById("query");
+      const query = queryInput.value.trim();
+      if (!query) return alert("Please enter your question!");
+
+      const chatArea = document.getElementById("chat-area");
+      const chatWrapper = document.getElementById("chat-wrapper");
+
+      chatArea.style.display = "block";
+
+      // User Message
+      const userMsg = document.createElement("div");
+      userMsg.className = "user-msg";
+      userMsg.textContent = query;
+      chatWrapper.appendChild(userMsg);
+
+      // Bot Thinking
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot-msg";
+      botMsg.textContent = "Thinking... 🤔";
+      chatWrapper.appendChild(botMsg);
+
+      try {
+        const res = await fetch("http://127.0.0.1:8000/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: query }),
+        });
+        const data = await res.json();
+        botMsg.textContent = data.answer || "No answer found.";
+      } catch (err) {
+        botMsg.textContent = "⚠️ Error connecting to backend.";
+      }
+
+      queryInput.value = "";
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    // Press Enter to Ask
+    document.getElementById("query").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") askQuery();
+    });
+  </script>
+</body>
+</html>
