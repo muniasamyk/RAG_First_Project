@@ -23,6 +23,7 @@ Generate clear and informative answers using a language model.
 
 The project follows a simple but powerful RAG pipeline:
 
+
 1) PDF to Text Extraction
 
 The system begins by reading a Human Nutrition PDF and extracting the raw text. This text acts as the foundation of our knowledge base.
