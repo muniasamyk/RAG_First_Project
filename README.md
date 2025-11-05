@@ -78,19 +78,19 @@ The chatbot will retrieve the relevant portions of the nutrition document and ge
 
 ## Key Concepts Used
 
-RAG (Retrieval-Augmented Generation) — combines retrieval and generation for factual accuracy.
+RAG (Retrieval-Augmented Generation) - combines retrieval and generation for factual accuracy.
 
 Chunks - converting chunk using RecursiveCharacterTextSplitter
 
-Embeddings — convert text into numerical vectors for semantic search.
+Embeddings - convert text into numerical vectors for semantic search.
 
-FAISS — a fast vector database used for storing and searching embeddings.
+FAISS - a fast vector database used for storing and searching embeddings.
 
-LLM (Large Language Model) — responsible for generating final, natural-language answers.
+LLM (Large Language Model) - responsible for generating final, natural-language answers.
 
-FastAPI — backend framework for API and chatbot integration.
+FastAPI - backend framework for API and chatbot integration.
 
-HTML/CSS/JavaScript — used to create an interactive, modern front-end chat interface.
+HTML/CSS/JavaScript - used to create an interactive, modern front-end chat interface.
 
 ## Outcome
 
