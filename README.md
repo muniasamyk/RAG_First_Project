@@ -1,5 +1,5 @@
 # RAG First Project
-# Human Nutrition Chatbot — RAG-Based Project
+# Human Nutrition Chatbot - RAG Based Project
 ## Overview
 
 This project is a Retrieval-Augmented Generation (RAG)-based chatbot built to answer questions related to Human Nutrition.
