@@ -80,6 +80,8 @@ The chatbot will retrieve the relevant portions of the nutrition document and ge
 
 RAG (Retrieval-Augmented Generation) — combines retrieval and generation for factual accuracy.
 
+Chunks - converting chunk using RecursiveCharacterTextSplitter
+
 Embeddings — convert text into numerical vectors for semantic search.
 
 FAISS — a fast vector database used for storing and searching embeddings.
